@@ -21,9 +21,11 @@ export function registerListCommand(program: Command) {
     .option("--limit <limit>")
     .action(async (opts, command) => {
       const spinner = ora("").start();
+      //  console.log("CLI Options:", opts);
+        // console.log("CLI COmmand:", command);
 
       try {
-        const data: any = await listProfiles(command);
+        const data: any = await listProfiles(opts);
         spinner.stop();
 
         renderProfilesTable(data);

@@ -5,7 +5,7 @@ import open from "open";
 import { saveCredentials } from "../../utils/credentials.js";
 import { generatePkce } from "../../utils/pkce.js";
 const BASE_URL = process.env.INSIGHTA_API_URL ?? "";
-const PORT = 9876;
+const PORT = 3000;
 export function registerLogin(program) {
     program.command("login").action(async () => {
         const spinner = ora("Logging in...").start();
@@ -52,6 +52,7 @@ export function registerLogin(program) {
                             },
                         });
                         const tokenData = await tokenResponse.text();
+                        // console.log("Tokennn", tokenData)
                         let data;
                         try {
                             data = JSON.parse(tokenData);

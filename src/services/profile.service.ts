@@ -18,6 +18,8 @@ export async function listProfiles(params: any) {
     limit: "limit",
   };
 
+  // console.log("Params received in service:", params);
+
   for (const [cliParam, backendParam] of Object.entries(paramMapping)) {
     if (params[cliParam] !== undefined && params[cliParam] !== null) {
       queryParams[backendParam] = String(params[cliParam]);
@@ -25,6 +27,9 @@ export async function listProfiles(params: any) {
   }
 
   const query = new URLSearchParams(queryParams).toString();
+  
+  // console.log("Generated query:", query);
+
   return await api.get(`/api/profiles?${query}`);
 }
 

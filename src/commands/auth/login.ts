@@ -5,11 +5,9 @@ import fetch from "node-fetch";
 import open from "open";
 import { saveCredentials } from "../../utils/credentials.js";
 import { generatePkce } from "../../utils/pkce.js";
-import { getAvailablePort } from "../../utils/ports.js";
-import { login } from "../../services/auth.service.js";
 
 const BASE_URL = process.env.INSIGHTA_API_URL ?? "";
-const PORT = 9876;
+const PORT = 3000;
 
 export function registerLogin(program: Command) {
   program.command("login").action(async () => {
@@ -68,6 +66,7 @@ export function registerLogin(program: Command) {
             });
 
             const tokenData = await tokenResponse.text();
+// console.log("Tokennn", tokenData)
 
             let data: any;
             try {

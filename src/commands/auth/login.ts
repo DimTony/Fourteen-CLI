@@ -4,17 +4,18 @@ import ora from "ora";
 import fetch from "node-fetch";
 import open from "open";
 import { saveCredentials } from "../../utils/credentials.js";
-import { generatePkce } from "../../utils/pkce.js";
+import { generateState } from "../../utils/pkce.js";
 
 const BASE_URL = process.env.INSIGHTA_API_URL ?? "";
-const PORT = 3000;
+const PORT = 9876;
 
 export function registerLogin(program: Command) {
   program.command("login").action(async () => {
     const spinner = ora("Logging in...").start();
 
     try {
-      const authUrl = `${BASE_URL}/auth/github?flow=cli`;
+      const state = generateState();
+      const authUrl = `${BASE_URL}/auth/github?flow=cli&state=${state}`;
 
       await open(authUrl);
 
@@ -36,7 +37,12 @@ export function registerLogin(program: Command) {
           const accessToken = url.searchParams.get("access_token");
           const refreshToken = url.searchParams.get("refresh_token");
           const username = url.searchParams.get("username");
-          const avatarUrl = url.searchParams.get("avatar_url");
+          const returnedState = url.searchParams.get("state");
+
+          if (state !== returnedState) {
+            finish("State mismatch. Authentication failed.", false);
+            return;
+          }
 
           try {
             if (!accessToken || !refreshToken || !username) {

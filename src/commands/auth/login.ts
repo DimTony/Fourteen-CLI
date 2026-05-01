@@ -7,7 +7,7 @@ import { saveCredentials } from "../../utils/credentials.js";
 import { generatePkce } from "../../utils/pkce.js";
 
 const BASE_URL = process.env.INSIGHTA_API_URL ?? "";
-const PORT = 3000;
+const PORT = 9876;
 
 export function registerLogin(program: Command) {
   program.command("login").action(async () => {
